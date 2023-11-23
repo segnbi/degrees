@@ -62,26 +62,27 @@ def main():
     load_data(directory)
     print("Data loaded.")
 
-    source = person_id_for_name(input("Name: "))
-    if source is None:
-        sys.exit("Person not found.")
-    target = person_id_for_name(input("Name: "))
-    if target is None:
-        sys.exit("Person not found.")
+    # source = person_id_for_name(input("Name: "))
+    # if source is None:
+    #     sys.exit("Person not found.")
+    # target = person_id_for_name(input("Name: "))
+    # if target is None:
+    #     sys.exit("Person not found.")
 
-    path = shortest_path(source, target)
+    # path = shortest_path(source, target)
+    path = shortest_path('200', '102')
 
-    if path is None:
-        print("Not connected.")
-    else:
-        degrees = len(path)
-        print(f"{degrees} degrees of separation.")
-        path = [(None, source)] + path
-        for i in range(degrees):
-            person1 = people[path[i][1]]["name"]
-            person2 = people[path[i + 1][1]]["name"]
-            movie = movies[path[i + 1][0]]["title"]
-            print(f"{i + 1}: {person1} and {person2} starred in {movie}")
+    # if path is None:
+    #     print("Not connected.")
+    # else:
+    #     degrees = len(path)
+    #     print(f"{degrees} degrees of separation.")
+    #     path = [(None, source)] + path
+    #     for i in range(degrees):
+    #         person1 = people[path[i][1]]["name"]
+    #         person2 = people[path[i + 1][1]]["name"]
+    #         movie = movies[path[i + 1][0]]["title"]
+    #         print(f"{i + 1}: {person1} and {person2} starred in {movie}")
 
 
 def shortest_path(source, target):
@@ -91,6 +92,29 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
+
+    exploredStar = []
+    queueFrontier = QueueFrontier()
+    sourceNode = Node(source, 0, 0)
+    queueFrontier.add(sourceNode)
+
+    # while not queueFrontier.empty:
+    for i in range(2):
+        removedNode = queueFrontier.remove()
+        exploredStar.append(removedNode.state)
+        if removedNode.state == target:
+            return print('succes')
+        else:
+            for movieId in people[removedNode.state]['movies']:
+                for starId in movies[movieId]['stars']:
+                    if not starId in exploredStar:
+                        node = Node(starId, removedNode.state, 0)
+                        queueFrontier.add(node)
+
+    for v in queueFrontier.frontier:
+        print(v.state)
+
+    return None
 
     # TODO
     raise NotImplementedError
