@@ -70,7 +70,7 @@ def main():
     #     sys.exit("Person not found.")
 
     # path = shortest_path(source, target)
-    path = shortest_path('200', '102')
+    path = shortest_path('200', '158')
 
     # if path is None:
     #     print("Not connected.")
@@ -99,7 +99,7 @@ def shortest_path(source, target):
     queueFrontier.add(sourceNode)
 
     # while not queueFrontier.empty:
-    for i in range(2):
+    for i in range(3):
         removedNode = queueFrontier.remove()
         exploredStar.append(removedNode.state)
         if removedNode.state == target:
