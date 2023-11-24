@@ -70,7 +70,7 @@ def main():
     #     sys.exit("Person not found.")
 
     # path = shortest_path(source, target)
-    path = shortest_path('200', '158')
+    path = shortest_path('200', '1597')
 
     # if path is None:
     #     print("Not connected.")
@@ -93,26 +93,25 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    exploredStar = []
+    exploredNode = []
     queueFrontier = QueueFrontier()
     sourceNode = Node(source, 0, 0)
+    targetNode = Node(target, 0, 0)
     queueFrontier.add(sourceNode)
 
-    # while not queueFrontier.empty:
-    for i in range(3):
+    while not queueFrontier.empty():
         removedNode = queueFrontier.remove()
-        exploredStar.append(removedNode.state)
-        if removedNode.state == target:
+        exploredNode.append(removedNode)
+        if removedNode.state == targetNode.state:
+            for v in exploredNode:
+                print(v.state)
             return print('succes')
         else:
             for movieId in people[removedNode.state]['movies']:
                 for starId in movies[movieId]['stars']:
-                    if not starId in exploredStar:
-                        node = Node(starId, removedNode.state, 0)
+                    if not any(node.state == starId for node in exploredNode) and not queueFrontier.contains_state(starId):
+                        node = Node(starId, removedNode, 0)
                         queueFrontier.add(node)
-
-    for v in queueFrontier.frontier:
-        print(v.state)
 
     return None
 
