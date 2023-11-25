@@ -111,7 +111,7 @@ def shortest_path(source, target):
                 shortestPath.insert(0, [tempNode.action, tempNode.state])
                 tempNode = tempNode.parent
 
-            print(movies)
+            # print(movies)
             return shortestPath
         else:
             for movieId in people[removedNode.state]['movies']:
