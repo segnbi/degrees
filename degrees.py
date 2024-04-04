@@ -1,5 +1,6 @@
 import csv
 import sys
+import copy
 
 from util import Node, StackFrontier, QueueFrontier
 
@@ -92,8 +93,35 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    # TODO
-    raise NotImplementedError
+    source_node = Node(source, '', '')
+    target_node = Node(target, '', '')
+    explored_node = []
+
+    frontier = QueueFrontier()
+
+    node = source_node
+
+    while True:
+        if node.state == target_node.state:
+            path = []
+
+            while node != source_node:
+                path.insert(0, [node.action, node.state])
+                node = node.parent
+
+            return path
+        else:
+            explored_node.append(node)
+
+            for neighbor in neighbors_for_person(node.state):
+                neighbor_node = Node(neighbor[1], node, neighbor[0])
+                if not any(node.state == neighbor_node.state for node in explored_node):
+                    frontier.add(neighbor_node)
+
+            if not frontier.empty():
+                node = frontier.remove()
+            else:
+                return None
 
 
 def person_id_for_name(name):
