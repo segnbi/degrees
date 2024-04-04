@@ -1,6 +1,5 @@
 import csv
 import sys
-import copy
 
 from util import Node, StackFrontier, QueueFrontier
 
